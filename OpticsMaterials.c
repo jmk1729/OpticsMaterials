@@ -4,20 +4,25 @@
 #include <stdio.h>
 
 
+#include "CommandLineInterface/CLIcore.h"
 
-
+extern DATA data;
 
 
 void __attribute__ ((constructor)) libinit_OpticsMaterials()
 {
 	init_OpticsMaterials();
-	printf(" ...... Loading module %s\n", __FILE__);
+//	printf(" ...... Loading module %s\n", __FILE__);
 }
 
 
 int init_OpticsMaterials()
-{
-return(0);
+{ 
+	strcpy(data.module[data.NBmodule].name, __FILE__);
+	strcpy(data.module[data.NBmodule].info, "Optics Materials");
+	data.NBmodule++;
+	
+	return(0);
 }
 
 
@@ -29,23 +34,24 @@ struct MaterialIndex {
 
 /// name is 6 char long max
 const struct MaterialIndex MatCode[] = {
-    { "Mirror",   0 },
-    {   "SiO2",   1 },
-    {     "Si",   2 },
-    {   "PMGI",   3 },
-    {   "PMMA",   4 },
-    {     "N2",   5 },
-    {     "O2",   6 },
-    {     "Ar",   7 },
-    {     "He",   8 },
-    {     "H2",   9 },
-    {   "H2Og",  10 },
-    {    "CO2",  11 },
-    {     "Ne",  12 },
-    {      "O",  13 },
-    {   "CaF2",  14 },
-    { "Vacuum", 100 },
-    {    "Air", 101 },
+    { "Mirror",     0 },
+    {   "SiO2",     1 },
+    {     "Si",     2 },
+    {   "PMGI",     3 },
+    {   "PMMA",     4 },
+    {     "N2",     5 },
+    {     "O2",     6 },
+    {     "Ar",     7 },
+    {     "He",     8 },
+    {     "H2",     9 },
+    {   "H2Og",    10 },
+    {    "CO2",    11 },
+    {     "Ne",    12 },
+    {      "O",    13 },
+    {   "CaF2",    14 },
+    { "Vacuum",   100 },
+    {    "Air",   101 },
+    { "CstPhase", 200 },  
     { NULL, 0 }  /* end marker */
 };
 
