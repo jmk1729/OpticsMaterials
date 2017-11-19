@@ -5,6 +5,7 @@
 
 
 #include "CommandLineInterface/CLIcore.h"
+#include "OpticsMaterials/OpticsMaterials.h"
 
 extern DATA data;
 
@@ -19,7 +20,7 @@ void __attribute__ ((constructor)) libinit_OpticsMaterials()
 int init_OpticsMaterials()
 { 
 	strcpy(data.module[data.NBmodule].name, __FILE__);
-	strcpy(data.module[data.NBmodule].info, "Optics Materials");
+	strcpy(data.module[data.NBmodule].info, "falcon  - Optics Materials");
 	data.NBmodule++;
 	
 	return(0);
@@ -51,7 +52,7 @@ const struct MaterialIndex MatCode[] = {
     {   "CaF2",    14 },
     { "Vacuum",   100 },
     {    "Air",   101 },
-    { "CstPhase", 200 },  
+    { "CstPha",   200 },  
     { NULL, 0 }  /* end marker */
 };
 
@@ -1445,7 +1446,11 @@ double OPTICSMATERIALS_n(int material, double lambda)
         n = sqrt(1.33973 + (CaF2_B1*lambdaum*lambdaum)/(lambdaum*lambdaum-CaF2_C1*CaF2_C1) + (CaF2_B2*lambdaum*lambdaum)/(lambdaum*lambdaum-CaF2_C2*CaF2_C2) + (CaF2_B3*lambdaum*lambdaum)/(lambdaum*lambdaum-CaF2_C3*CaF2_C3));
         break;
 
-
+	case 200 : // cst phase
+		n = 1.0 + lambdaum;
+		// phase offset = t (n-1) / lambda
+		// (n-1)/lambda achromatic -> n-1 = lambda -> n = 1+lambda
+		break;
 
     default:
         n = 0;
