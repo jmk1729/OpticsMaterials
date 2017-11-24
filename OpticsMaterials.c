@@ -20,7 +20,8 @@ void __attribute__ ((constructor)) libinit_OpticsMaterials()
 int init_OpticsMaterials()
 { 
 	strcpy(data.module[data.NBmodule].name, __FILE__);
-	strcpy(data.module[data.NBmodule].info, "wfprop  - Optics Materials");
+	strcpy(data.module[data.NBmodule].package, "wfprop");
+	strcpy(data.module[data.NBmodule].info, "Optics Materials");
 	data.NBmodule++;
 	
 	return(0);
