@@ -176,7 +176,7 @@ double OPTICSMATERIALS_n(int material, double lambda)
         break;
         
     case 101 : // air, 1 atm
-        n = 1.0 + 1.0 * ( (5792105.0e-8/(238.0185-1.0/(lambdaum*lambdaum))) + (167917.0e-8/(57.362-1.0/(lambdaum*lambdaum))) );;
+        n = 1.0 + 1.0 * ( (5792105.0e-8/(238.0185-1.0/(lambdaum*lambdaum))) + (167917.0e-8/(57.362-1.0/(lambdaum*lambdaum))) );
         break;
 
     case 0 : // Mirror
@@ -1464,8 +1464,14 @@ double OPTICSMATERIALS_n(int material, double lambda)
 }
 
 
-
-
+//
+// material thickness is z
+// pha is phase ADVANCE on transmitted or reflected beeam
+// if outgoing beam propagages along z direction, then pha is wavefront value with positive sign for +z
+// a convergent beam will have positive values on outside
+// for refractive material with n>1.0, delay is > 0
+// mirror is modeled as n=3 under this convention
+//
 double OPTICSMATERIALS_pha_lambda( int material, double z, double lambda )
 {
     double n;
@@ -1476,7 +1482,8 @@ double OPTICSMATERIALS_pha_lambda( int material, double z, double lambda )
     double lambdaum;
 
     lambdaum = lambda*1.0e6;
-
+ 
+	            // n = 1.0 + 1.0 * ( (5792105.0e-8/(238.0185-1.0/(lambdaum*lambdaum))) + (167917.0e-8/(57.362-1.0/(lambdaum*lambdaum))) );
     nair = 1.0 + PressureRatio * ( (5792105.0e-8/(238.0185-1.0/(lambdaum*lambdaum))) + (167917.0e-8/(57.362-1.0/(lambdaum*lambdaum))) );
 
     n = OPTICSMATERIALS_n(material, lambda);
