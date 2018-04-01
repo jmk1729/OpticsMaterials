@@ -7,7 +7,6 @@
 #include "CommandLineInterface/CLIcore.h"
 #include "OpticsMaterials/OpticsMaterials.h"
 
-extern DATA data;
 
 
 void __attribute__ ((constructor)) libinit_OpticsMaterials()
