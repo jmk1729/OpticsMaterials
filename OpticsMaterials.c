@@ -7,22 +7,23 @@
 #include "CommandLineInterface/CLIcore.h"
 #include "OpticsMaterials/OpticsMaterials.h"
 
-extern DATA data;
+static int INITSTATUS_OpticsMaterials = 0;
 
 
 void __attribute__ ((constructor)) libinit_OpticsMaterials()
 {
-	init_OpticsMaterials();
-//	printf(" ...... Loading module %s\n", __FILE__);
+	if ( INITSTATUS_OpticsMaterials == 0 )
+	{
+		init_OpticsMaterials();
+		RegisterModule(__FILE__, "wfprop", "Optics Materials");
+		INITSTATUS_OpticsMaterials = 1; 
+	}
 }
 
 
 int init_OpticsMaterials()
 { 
-	strcpy(data.module[data.NBmodule].name, __FILE__);
-	strcpy(data.module[data.NBmodule].package, "wfprop");
-	strcpy(data.module[data.NBmodule].info, "Optics Materials");
-	data.NBmodule++;
+
 	
 	return(0);
 }
