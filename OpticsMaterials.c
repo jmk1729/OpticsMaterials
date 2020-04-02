@@ -52,7 +52,7 @@ const struct MaterialIndex MatCode[] = {
     {     "Ne",    12 },
     {      "O",    13 },
     {   "CaF2",    14 },
-    {   "IPDIP",    15},
+    {   "IPDIP",    15 },
     { "Vacuum",   100 },
     {    "Air",   101 },
     { "CstPha",   200 },  
