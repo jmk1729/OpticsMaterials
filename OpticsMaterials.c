@@ -52,6 +52,7 @@ const struct MaterialIndex MatCode[] = {
     {     "Ne",    12 },
     {      "O",    13 },
     {   "CaF2",    14 },
+    {   "IPDIP",    15},
     { "Vacuum",   100 },
     {    "Air",   101 },
     { "CstPha",   200 },  
@@ -152,6 +153,11 @@ double OPTICSMATERIALS_n(int material, double lambda)
     double CaF2_C2 = 21.18;
     double CaF2_B3 = 4.35181;
     double CaF2_C3 = 38.46;
+    
+    // IPDIP
+    double IPDIP_A = 1.5273;
+    double IPDIP_B = 6.5456e-3;
+    double IPDIP_C = 2.5345e-4;
 
 	double sma1, smb1, sma2, smb2, sma3, smb3;
 
@@ -177,7 +183,7 @@ double OPTICSMATERIALS_n(int material, double lambda)
         break;
         
     case 101 : // air, 1 atm
-        n = 1.0 + 1.0 * ( (5792105.0e-8/(238.0185-1.0/(lambdaum*lambdaum))) + (167917.0e-8/(57.362-1.0/(lambdaum*lambdaum))) );
+        n = 1.0 + 1.0 * ( (5792105.0e-8/(238.0185-1.0/(lambdaum*lambdaum))) + (167917.0e-8/(57.362-1.0/(lambdaum*lambdaum))) );;
         break;
 
     case 0 : // Mirror
@@ -1447,6 +1453,12 @@ double OPTICSMATERIALS_n(int material, double lambda)
    case 14 : // CaF2
         n = sqrt(1.33973 + (CaF2_B1*lambdaum*lambdaum)/(lambdaum*lambdaum-CaF2_C1*CaF2_C1) + (CaF2_B2*lambdaum*lambdaum)/(lambdaum*lambdaum-CaF2_C2*CaF2_C2) + (CaF2_B3*lambdaum*lambdaum)/(lambdaum*lambdaum-CaF2_C3*CaF2_C3));
         break;
+        
+   // ref: Gissibl, T., Wagner, S., Sykora, J., Schmid, M. & Giessen, H. Refractive index measurements of photo-resists for three-dimensional direct laser writing. Opt. Mater. Express, OME 7, 2293-2298 (2017).
+   // equation (5) with Cauchy parameters for Nanoscribe IP-Dip from Table 2 (last row of the table). Units of wavelength must be in microns for correct calculation.
+   case 15: // IPDIP
+        n = IPDIP_A + IPDIP_B/(lambdaum*lambdaum) + IPDIP_C/(lambdaum*lambdaum*lambdaum*lambdaum);
+        break;
 
 	case 200 : // cst phase
 		n = 1.0 + lambdaum;
@@ -1465,14 +1477,8 @@ double OPTICSMATERIALS_n(int material, double lambda)
 }
 
 
-//
-// material thickness is z
-// pha is phase ADVANCE on transmitted or reflected beeam
-// if outgoing beam propagages along z direction, then pha is wavefront value with positive sign for +z
-// a convergent beam will have positive values on outside
-// for refractive material with n>1.0, delay is > 0
-// mirror is modeled as n=3 under this convention
-//
+
+
 double OPTICSMATERIALS_pha_lambda( int material, double z, double lambda )
 {
     double n;
@@ -1483,8 +1489,7 @@ double OPTICSMATERIALS_pha_lambda( int material, double z, double lambda )
     double lambdaum;
 
     lambdaum = lambda*1.0e6;
- 
-	            // n = 1.0 + 1.0 * ( (5792105.0e-8/(238.0185-1.0/(lambdaum*lambdaum))) + (167917.0e-8/(57.362-1.0/(lambdaum*lambdaum))) );
+
     nair = 1.0 + PressureRatio * ( (5792105.0e-8/(238.0185-1.0/(lambdaum*lambdaum))) + (167917.0e-8/(57.362-1.0/(lambdaum*lambdaum))) );
 
     n = OPTICSMATERIALS_n(material, lambda);
