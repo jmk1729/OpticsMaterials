@@ -1493,6 +1493,8 @@ double OPTICSMATERIALS_pha_lambda( int material, double z, double lambda )
     nair = 1.0 + PressureRatio * ( (5792105.0e-8/(238.0185-1.0/(lambdaum*lambdaum))) + (167917.0e-8/(57.362-1.0/(lambdaum*lambdaum))) );
 
     n = OPTICSMATERIALS_n(material, lambda);
+    printf("     (n = %3.9f for lambdaum = %3.9f)\n", n, lambdaum);
+    fflush(stdout);	
     pha = 2.0*M_PI * (n-nair)*z / lambda;
 
     return (pha);
